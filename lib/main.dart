@@ -1,6 +1,27 @@
+import 'package:first_project/views/profile_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+
+final GoRouter router = GoRouter(
+  initialLocation: '/homePage',
+  routes: [
+    GoRoute(
+      path: '/homePage',
+      builder: (context, state) => const MyHomePage(),
+    ),
+    GoRoute(
+      path: '/profileScreen',
+      builder: (context, state) {
+        final String userName = state.extra as String;
+        return ProfileScreen(name: userName,);
+      },
+    ),
+    
+  ],
+);
+
 
 
 void main() {
@@ -13,27 +34,54 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a purple toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
-      ),
-      home: const MyHomePage(),
+    // return MaterialApp(
+    //   title: 'Flutter Demo',
+    //   theme: ThemeData(
+    //     // This is the theme of your application.
+    //     //
+    //     // TRY THIS: Try running your application with "flutter run". You'll see
+    //     // the application has a purple toolbar. Then, without quitting the app,
+    //     // try changing the seedColor in the colorScheme below to Colors.green
+    //     // and then invoke "hot reload" (save your changes or press the "hot
+    //     // reload" button in a Flutter-supported IDE, or press "r" if you used
+    //     // the command line to start the app).
+    //     //
+    //     // Notice that the counter didn't reset back to zero; the application
+    //     // state is not lost during the reload. To reset the state, use hot
+    //     // restart instead.
+    //     //
+    //     // This works for code too, not just values: Most code changes can be
+    //     // tested with just a hot reload.
+    //     colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+    //   ),
+    //   initialRoute: '/homePage',
+    //   routes: {
+    //     '/homePage': (context) => MyHomePage(),
+    //     // '/profileScreen': (context) => ProfileScreen(),
+    //   },
+    //   onGenerateRoute: (settings) {
+    //     // settings.arguments
+    //     // settings.name
+
+    //     // done by flutter
+    //     // Settings(
+    //     //   name: '/profileScreen',
+    //     //   arguments: userName,
+    //     // )
+
+    //     if (settings.name == '/profileScreen') {
+    //       final String userName = settings.arguments as String;
+    //       return MaterialPageRoute(
+    //         builder: (context) => ProfileScreen(name: userName,),
+    //       );
+    //     } else {
+    //       return null;
+    //     }
+    //   },
+    // );
+
+    return MaterialApp.router(
+      routerConfig: router,
     );
   }
 }
@@ -62,6 +110,7 @@ class _MyHomePageState extends State<MyHomePage> {
     'I am search page',
     'I am profile page',
   ];
+  String returnedName = '';
 
   void _incrementCounter() {
     // This call to setState tells the Flutter framework that something has
@@ -77,145 +126,179 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 3,
-      child: Scaffold(
-        appBar: AppBar(
-          leading: FilledButton(onPressed: (){}, child: Text('Azad'),),
-          title: Text('Tabs Demo'),
-          bottom: TabBar(
-            indicatorColor: Colors.black,
-            tabs: [
-              Tab(icon: Icon(Icons.home), text: 'Home'),
-              Tab(icon: Icon(Icons.star), text: 'Favorites'),
-              Tab(icon: Icon(Icons.person), text: 'Profile'),
+    // return DefaultTabController(
+    //   length: 3,
+    //   child: Scaffold(
+    //     appBar: AppBar(
+    //       leading: FilledButton(onPressed: (){}, child: Text('Azad'),),
+    //       title: Text('Tabs Demo'),
+    //       bottom: TabBar(
+    //         indicatorColor: Colors.black,
+    //         tabs: [
+    //           Tab(icon: Icon(Icons.home), text: 'Home'),
+    //           Tab(icon: Icon(Icons.star), text: 'Favorites'),
+    //           Tab(icon: Icon(Icons.person), text: 'Profile'),
 
-            ],
+    //         ],
+    //       ),
+    //     ),
+    //     body: TabBarView(children: [
+    //       Center(child: Text('Home Screen')),
+    //       Center(child: Text('Favorites')),
+    //       Center(child: Text('Profile')),
+    //     ]),
+    //   ),
+    // );
+
+
+    return Scaffold(
+      key: scaffoldKey,
+      drawer: Drawer(
+        child: ListView(
+          children: [
+            UserAccountsDrawerHeader(
+              accountName: Text('Azad Shaik'),
+              accountEmail: Text('azad@example.com'),
+              currentAccountPicture: CircleAvatar(
+                backgroundImage: AssetImage('assets/profile.png'),
+              ),
+            ),
+            ListTile(leading: Icon(Icons.home), title: Text('Home'), onTap: () {},trailing:
+              Container(height: 30, width: 30, child: Icon(Icons.abc),),
+            ),
+            ListTile(leading: Icon(Icons.settings), title: Text('Settings')),
+            ListTile(leading: Icon(Icons.settings), title: Text('Settings')),
+            ListTile(leading: Icon(Icons.settings), title: Text('Settings')),
+            ListTile(leading: Icon(Icons.settings), title: Text('Settings')),
+            ListTile(leading: Icon(Icons.settings), title: Text('Settings')),
+            Divider(),
+            ListTile(leading: Icon(Icons.logout), title: Text('Logout')),
+          ],
+        ),
+      ),
+    
+      appBar: AppBar(
+          title: Text('Home'),
+          leading: IconButton(
+            icon: Icon(Icons.menu),
+            onPressed: () {
+              scaffoldKey.currentState?.openDrawer();
+            },
+          ),
+          actions: [
+            IconButton(icon: Icon(Icons.search), onPressed: () {}),
+            IconButton(icon: Icon(Icons.notifications), onPressed: () {}),
+    
+          ],
+          // backgroundColor: Colors.blue,
+          elevation: 4,
+          centerTitle: false,
+          bottom: PreferredSize(
+            preferredSize: Size(double.infinity ,40),
+            child: IconButton(icon: Icon(Icons.notifications),
+                onPressed: () {}
+            ),
           ),
         ),
-        body: TabBarView(children: [
-          Center(child: Text('Home Screen')),
-          Center(child: Text('Favorites')),
-          Center(child: Text('Profile')),
-        ]),
-      ),
+    
+    
+        body: Center(child: Text('This is what returned $returnedName')),
+        bottomNavigationBar: BottomNavigationBar(
+          currentIndex: _selectedIndex,
+          onTap: (index) => setState(() => _selectedIndex = index),
+          selectedItemColor: Colors.red,
+          unselectedItemColor: Colors.grey,
+          iconSize: 20,
+          items: const [
+            BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+            BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Search'),
+            BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
+    
+          ],
+        ),
+        floatingActionButton: FloatingActionButton.extended(
+          onPressed: () async {
+            final String userName = "Peter Parker";
+            // // Navigator.push(
+            // //   context,
+            // //   MaterialPageRoute(builder: (context) => ProfileScreen(name: userName,)),
+            // // );
+
+            // returnedName = await Navigator.pushNamed(context, '/profileScreen', arguments: userName) as String;
+            // setState(() {
+              
+            // });
+
+            // Navigator.pushAndRemoveUntil(
+            //   context,
+            //   MaterialPageRoute(builder: (context) => Screen4()),
+            //   (route) => route == MaterialPageRoute(builder: (context) => ProfileScreen(name: '')),
+            // );
+
+            // returnedName = await Navigator.pushNamed(context, '/profileScreen', arguments: userName) as String;
+
+            context.push('/profileScreen', extra: userName);
+
+            print('This is the name returned $returnedName');
+
+
+            // done by flutter
+            // Settings(
+            //   name: '/profileScreen',
+            //   arguments: userName,
+            // )
+
+
+
+            
+
+            print('extended button has been clicked');
+            // ScaffoldMessenger.of(context).showSnackBar(
+            //   SnackBar(
+            //     content: Text('Message Sent!'),
+            //     duration: Duration(seconds: 2),
+            //     behavior: SnackBarBehavior.fixed,
+            //     action: SnackBarAction(label: 'Undo', onPressed: () {}),
+            //   ),
+            // );
+    
+            // bottom sheet
+            // showModalBottomSheet(
+            //   context: context,
+            //   builder: (_) => Container(
+            //     padding: EdgeInsets.all(16),
+            //     child: Column(
+            //       mainAxisSize: MainAxisSize.min,
+            //       children: [
+            //         ListTile(leading: Icon(Icons.share), title: Text('Share')),
+            //         ListTile(leading: Icon(Icons.link), title: Text('Copy Link')),
+            //       ],
+            //     ),
+            //   ),
+            // );
+    
+            // alert dialog
+            // showDialog(
+            //   context: context,
+            //   builder: (_) => AlertDialog(
+            //     title: Text('Delete Item?'),
+            //     content: Text('Are you sure you want to delete this?'),
+            //     actions: [
+            //       TextButton(onPressed: () => Navigator.pop(context), child: Text('Cancel')),
+            //       ElevatedButton(onPressed: () {}, child: Text('Delete')),
+            //     ],
+            //   ),
+            // );
+    
+    
+    
+          },
+          icon: Icon(Icons.add),
+          // shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
+          label: Text('Add'),
+        ),
+    
     );
-
-
-    // return Scaffold(
-    //   key: scaffoldKey,
-    //   drawer: Drawer(
-    //     child: ListView(
-    //       children: [
-    //         UserAccountsDrawerHeader(
-    //           accountName: Text('Azad Shaik'),
-    //           accountEmail: Text('azad@example.com'),
-    //           currentAccountPicture: CircleAvatar(
-    //             backgroundImage: AssetImage('assets/profile.png'),
-    //           ),
-    //         ),
-    //         ListTile(leading: Icon(Icons.home), title: Text('Home'), onTap: () {},trailing:
-    //           Container(height: 30, width: 30, child: Icon(Icons.abc),),
-    //         ),
-    //         ListTile(leading: Icon(Icons.settings), title: Text('Settings')),
-    //         ListTile(leading: Icon(Icons.settings), title: Text('Settings')),
-    //         ListTile(leading: Icon(Icons.settings), title: Text('Settings')),
-    //         ListTile(leading: Icon(Icons.settings), title: Text('Settings')),
-    //         ListTile(leading: Icon(Icons.settings), title: Text('Settings')),
-    //         Divider(),
-    //         ListTile(leading: Icon(Icons.logout), title: Text('Logout')),
-    //       ],
-    //     ),
-    //   ),
-    //
-    //   appBar: AppBar(
-    //       title: Text('Home'),
-    //       leading: IconButton(
-    //         icon: Icon(Icons.menu),
-    //         onPressed: () {
-    //           scaffoldKey.currentState?.openDrawer();
-    //         },
-    //       ),
-    //       actions: [
-    //         IconButton(icon: Icon(Icons.search), onPressed: () {}),
-    //         IconButton(icon: Icon(Icons.notifications), onPressed: () {}),
-    //
-    //       ],
-    //       // backgroundColor: Colors.blue,
-    //       elevation: 4,
-    //       centerTitle: false,
-    //       bottom: PreferredSize(
-    //         preferredSize: Size(double.infinity ,40),
-    //         child: IconButton(icon: Icon(Icons.notifications),
-    //             onPressed: () {}
-    //         ),
-    //       ),
-    //     ),
-    //
-    //
-    //     body: Center(child: Text(screenMessages[_selectedIndex])),
-    //     bottomNavigationBar: BottomNavigationBar(
-    //       currentIndex: _selectedIndex,
-    //       onTap: (index) => setState(() => _selectedIndex = index),
-    //       selectedItemColor: Colors.red,
-    //       unselectedItemColor: Colors.grey,
-    //       iconSize: 20,
-    //       items: const [
-    //         BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-    //         BottomNavigationBarItem(icon: Icon(Icons.search), label: 'Search'),
-    //         BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
-    //
-    //       ],
-    //     ),
-    //     floatingActionButton: FloatingActionButton.extended(
-    //       onPressed: () {
-    //         print('extended button has been clicked');
-    //         // ScaffoldMessenger.of(context).showSnackBar(
-    //         //   SnackBar(
-    //         //     content: Text('Message Sent!'),
-    //         //     duration: Duration(seconds: 2),
-    //         //     behavior: SnackBarBehavior.fixed,
-    //         //     action: SnackBarAction(label: 'Undo', onPressed: () {}),
-    //         //   ),
-    //         // );
-    //
-    //         // bottom sheet
-    //         // showModalBottomSheet(
-    //         //   context: context,
-    //         //   builder: (_) => Container(
-    //         //     padding: EdgeInsets.all(16),
-    //         //     child: Column(
-    //         //       mainAxisSize: MainAxisSize.min,
-    //         //       children: [
-    //         //         ListTile(leading: Icon(Icons.share), title: Text('Share')),
-    //         //         ListTile(leading: Icon(Icons.link), title: Text('Copy Link')),
-    //         //       ],
-    //         //     ),
-    //         //   ),
-    //         // );
-    //
-    //         // alert dialog
-    //         // showDialog(
-    //         //   context: context,
-    //         //   builder: (_) => AlertDialog(
-    //         //     title: Text('Delete Item?'),
-    //         //     content: Text('Are you sure you want to delete this?'),
-    //         //     actions: [
-    //         //       TextButton(onPressed: () => Navigator.pop(context), child: Text('Cancel')),
-    //         //       ElevatedButton(onPressed: () {}, child: Text('Delete')),
-    //         //     ],
-    //         //   ),
-    //         // );
-    //
-    //
-    //
-    //       },
-    //       icon: Icon(Icons.add),
-    //       // shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
-    //       label: Text('Add'),
-    //     ),
-    //
-    // );
 
     // return Scaffold(
     //   body:
