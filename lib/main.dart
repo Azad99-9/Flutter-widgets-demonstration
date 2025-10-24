@@ -1,4 +1,5 @@
 import 'package:first_project/views/profile_screen.dart';
+import 'package:first_project/views/text_field_demo.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -10,6 +11,10 @@ final GoRouter router = GoRouter(
     GoRoute(
       path: '/homePage',
       builder: (context, state) => const MyHomePage(),
+    ),
+    GoRoute(
+      path: '/formsDemonstration',
+      builder: (context, state) => SaveFormExample(),
     ),
     GoRoute(
       path: '/profileScreen',
@@ -237,7 +242,11 @@ class _MyHomePageState extends State<MyHomePage> {
 
             // returnedName = await Navigator.pushNamed(context, '/profileScreen', arguments: userName) as String;
 
-            context.push('/profileScreen', extra: userName);
+            // context.push('/profileScreen', extra: userName);
+
+            // ------------- forms demonstration
+
+            context.push('/formsDemonstration');
 
             print('This is the name returned $returnedName');
 
