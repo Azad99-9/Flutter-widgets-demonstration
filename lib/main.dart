@@ -1,7 +1,55 @@
+// import 'package:flutter/material.dart';
+
+// void main() => runApp(const ThemeToggleDemo());
+
+// class ThemeToggleDemo extends StatefulWidget {
+//   const ThemeToggleDemo({super.key});
+
+//   @override
+//   State<ThemeToggleDemo> createState() => _ThemeToggleDemoState();
+// }
+
+// class _ThemeToggleDemoState extends State<ThemeToggleDemo> {
+//   bool isDarkMode = true;
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       title: 'Theme Toggle Demo',
+//       theme: ThemeData.light().copyWith(colorScheme: const ColorScheme.light(primary: Colors.blue)),
+//       darkTheme: ThemeData.dark().copyWith(colorScheme: const ColorScheme.dark(primary: Colors.blueGrey)),
+//       themeMode: isDarkMode ? ThemeMode.dark : ThemeMode.light,
+//       // if (isDarkMode) {
+//       //   return ThemeMode.dark;
+//       // } else {
+//       //   return ThemeMode.light;
+//       // }
+//       home: Scaffold(
+//         appBar: AppBar(
+//           title: const Text('Toggle Theme'),
+//           actions: [
+//             IconButton(
+//               icon: Icon(isDarkMode ? Icons.light_mode : Icons.dark_mode),
+//               onPressed: () {
+//                 setState(() {
+//                   isDarkMode = !isDarkMode; // false
+//                 });
+//               },
+//             )
+//           ],
+//         ),
+//         body: const Center(child: Text('Tap icon to toggle theme')),
+//       ),
+//     );
+//   }
+// }
+
+
 import 'package:first_project/views/profile_screen.dart';
 import 'package:first_project/views/text_field_demo.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -87,6 +135,44 @@ class MyApp extends StatelessWidget {
 
     return MaterialApp.router(
       routerConfig: router,
+       theme: ThemeData.light().copyWith(
+        colorScheme: ColorScheme.light(primary: Colors.blue),
+      ),
+      darkTheme: ThemeData.dark().copyWith(
+
+        colorScheme: ColorScheme.dark(primary: Colors.blueGrey,),
+      ),
+      themeMode: ThemeMode.system,
+        // theme: ThemeData(
+         
+
+        //   colorScheme: ColorScheme(
+        //     brightness: Brightness.light, primary: Colors.red, onPrimary: Colors.black, secondary: Colors.blue, onSecondary: Colors.white, error: Colors.red, onError: Colors.white, surface: Colors.white, onSurface: Colors.black,
+        //   ),
+        //   textTheme: TextTheme(
+
+        //     bodyLarge: TextStyle(
+        //   fontFamily: 'BitcountGridSingle',
+        //   fontWeight: FontWeight.w800,
+        // ),
+        //   ),
+        // This is the theme of your application.
+        //
+        // TRY THIS: Try running your application with "flutter run". You'll see
+        // the application has a purple toolbar. Then, without quitting the app,
+        // try changing the seedColor in the colorScheme below to Colors.green
+        // and then invoke "hot reload" (save your changes or press the "hot
+        // reload" button in a Flutter-supported IDE, or press "r" if you used
+        // the command line to start the app).
+        //
+        // Notice that the counter didn't reset back to zero; the application
+        // state is not lost during the reload. To reset the state, use hot
+        // restart instead.
+        //
+        // This works for code too, not just values: Most code changes can be
+        // tested with just a hot reload.,
+
+      
     );
   }
 }
@@ -207,7 +293,10 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
     
     
-        body: Center(child: Text('This is what returned $returnedName')),
+        body: Center(child: Text('This is what returned $returnedName', style: GoogleFonts.condiment(
+          fontWeight: FontWeight.w900,
+
+        ),),),
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: _selectedIndex,
           onTap: (index) => setState(() => _selectedIndex = index),
@@ -222,6 +311,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
         floatingActionButton: FloatingActionButton.extended(
+          backgroundColor: Theme.of(context).colorScheme.secondary,
           onPressed: () async {
             final String userName = "Peter Parker";
             // // Navigator.push(

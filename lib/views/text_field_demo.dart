@@ -226,7 +226,7 @@ class _SaveFormExampleState extends State<SaveFormExample> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Save Form Example')),
+      appBar: AppBar(title: Text('Save Form Example', style: Theme.of(context).textTheme.bodyLarge,)),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Form(
