@@ -45,6 +45,8 @@
 // }
 
 
+import 'package:first_project/views/inherited_widget_demonstration.dart';
+import 'package:first_project/views/local_state_demonstration.dart';
 import 'package:first_project/views/profile_screen.dart';
 import 'package:first_project/views/text_field_demo.dart';
 import 'package:flutter/material.dart';
@@ -62,7 +64,7 @@ final GoRouter router = GoRouter(
     ),
     GoRoute(
       path: '/formsDemonstration',
-      builder: (context, state) => SaveFormExample(),
+      builder: (context, state) => InheritedExample(),
     ),
     GoRoute(
       path: '/profileScreen',
