@@ -45,13 +45,17 @@
 // }
 
 
-import 'package:first_project/views/inherited_widget_demonstration.dart';
-import 'package:first_project/views/local_state_demonstration.dart';
-import 'package:first_project/views/profile_screen.dart';
-import 'package:first_project/views/text_field_demo.dart';
+// import 'package:first_project/views/inherited_widget_demonstration.dart';
+// import 'package:first_project/views/local_state_demonstration.dart';
+import 'package:first_project/views/practice_basics/profile_screen.dart';
+import 'package:first_project/views/practice_basics/provider_example.dart';
+import 'package:first_project/views/practice_basics/riverpod_example_simple_provider.dart';
+import 'package:first_project/views/practice_basics/text_field_demo.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -64,7 +68,7 @@ final GoRouter router = GoRouter(
     ),
     GoRoute(
       path: '/formsDemonstration',
-      builder: (context, state) => InheritedExample(),
+      builder: (context, state) => CounterScreenProviderExample(),
     ),
     GoRoute(
       path: '/profileScreen',
@@ -78,106 +82,107 @@ final GoRouter router = GoRouter(
 );
 
 
-
 void main() {
-  runApp(const MyApp());
+  runApp(ProviderScope(
+    child: MyApp(),
+  ));
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+// class MyApp extends StatelessWidget {
+//   const MyApp({super.key});
 
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    // return MaterialApp(
-    //   title: 'Flutter Demo',
-    //   theme: ThemeData(
-    //     // This is the theme of your application.
-    //     //
-    //     // TRY THIS: Try running your application with "flutter run". You'll see
-    //     // the application has a purple toolbar. Then, without quitting the app,
-    //     // try changing the seedColor in the colorScheme below to Colors.green
-    //     // and then invoke "hot reload" (save your changes or press the "hot
-    //     // reload" button in a Flutter-supported IDE, or press "r" if you used
-    //     // the command line to start the app).
-    //     //
-    //     // Notice that the counter didn't reset back to zero; the application
-    //     // state is not lost during the reload. To reset the state, use hot
-    //     // restart instead.
-    //     //
-    //     // This works for code too, not just values: Most code changes can be
-    //     // tested with just a hot reload.
-    //     colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
-    //   ),
-    //   initialRoute: '/homePage',
-    //   routes: {
-    //     '/homePage': (context) => MyHomePage(),
-    //     // '/profileScreen': (context) => ProfileScreen(),
-    //   },
-    //   onGenerateRoute: (settings) {
-    //     // settings.arguments
-    //     // settings.name
+//   // This widget is the root of your application.
+//   @override
+//   Widget build(BuildContext context) {
+//     // return MaterialApp(
+//     //   title: 'Flutter Demo',
+//     //   theme: ThemeData(
+//     //     // This is the theme of your application.
+//     //     //
+//     //     // TRY THIS: Try running your application with "flutter run". You'll see
+//     //     // the application has a purple toolbar. Then, without quitting the app,
+//     //     // try changing the seedColor in the colorScheme below to Colors.green
+//     //     // and then invoke "hot reload" (save your changes or press the "hot
+//     //     // reload" button in a Flutter-supported IDE, or press "r" if you used
+//     //     // the command line to start the app).
+//     //     //
+//     //     // Notice that the counter didn't reset back to zero; the application
+//     //     // state is not lost during the reload. To reset the state, use hot
+//     //     // restart instead.
+//     //     //
+//     //     // This works for code too, not just values: Most code changes can be
+//     //     // tested with just a hot reload.
+//     //     colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+//     //   ),
+//     //   initialRoute: '/homePage',
+//     //   routes: {
+//     //     '/homePage': (context) => MyHomePage(),
+//     //     // '/profileScreen': (context) => ProfileScreen(),
+//     //   },
+//     //   onGenerateRoute: (settings) {
+//     //     // settings.arguments
+//     //     // settings.name
 
-    //     // done by flutter
-    //     // Settings(
-    //     //   name: '/profileScreen',
-    //     //   arguments: userName,
-    //     // )
+//     //     // done by flutter
+//     //     // Settings(
+//     //     //   name: '/profileScreen',
+//     //     //   arguments: userName,
+//     //     // )
 
-    //     if (settings.name == '/profileScreen') {
-    //       final String userName = settings.arguments as String;
-    //       return MaterialPageRoute(
-    //         builder: (context) => ProfileScreen(name: userName,),
-    //       );
-    //     } else {
-    //       return null;
-    //     }
-    //   },
-    // );
+//     //     if (settings.name == '/profileScreen') {
+//     //       final String userName = settings.arguments as String;
+//     //       return MaterialPageRoute(
+//     //         builder: (context) => ProfileScreen(name: userName,),
+//     //       );
+//     //     } else {
+//     //       return null;
+//     //     }
+//     //   },
+//     // );
 
-    return MaterialApp.router(
-      routerConfig: router,
-       theme: ThemeData.light().copyWith(
-        colorScheme: ColorScheme.light(primary: Colors.blue),
-      ),
-      darkTheme: ThemeData.dark().copyWith(
+//     return MaterialApp.router(
+//       routerConfig: router,
+//        theme: ThemeData.light().copyWith(
+//         colorScheme: ColorScheme.light(primary: Colors.blue),
+//       ),
+//       darkTheme: ThemeData.dark().copyWith(
 
-        colorScheme: ColorScheme.dark(primary: Colors.blueGrey,),
-      ),
-      themeMode: ThemeMode.system,
-        // theme: ThemeData(
+//         colorScheme: ColorScheme.dark(primary: Colors.blueGrey,),
+//       ),
+//       themeMode: ThemeMode.system,
+//         // theme: ThemeData(
          
 
-        //   colorScheme: ColorScheme(
-        //     brightness: Brightness.light, primary: Colors.red, onPrimary: Colors.black, secondary: Colors.blue, onSecondary: Colors.white, error: Colors.red, onError: Colors.white, surface: Colors.white, onSurface: Colors.black,
-        //   ),
-        //   textTheme: TextTheme(
+//         //   colorScheme: ColorScheme(
+//         //     brightness: Brightness.light, primary: Colors.red, onPrimary: Colors.black, secondary: Colors.blue, onSecondary: Colors.white, error: Colors.red, onError: Colors.white, surface: Colors.white, onSurface: Colors.black,
+//         //   ),
+//         //   textTheme: TextTheme(
 
-        //     bodyLarge: TextStyle(
-        //   fontFamily: 'BitcountGridSingle',
-        //   fontWeight: FontWeight.w800,
-        // ),
-        //   ),
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a purple toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.,
+//         //     bodyLarge: TextStyle(
+//         //   fontFamily: 'BitcountGridSingle',
+//         //   fontWeight: FontWeight.w800,
+//         // ),
+//         //   ),
+//         // This is the theme of your application.
+//         //
+//         // TRY THIS: Try running your application with "flutter run". You'll see
+//         // the application has a purple toolbar. Then, without quitting the app,
+//         // try changing the seedColor in the colorScheme below to Colors.green
+//         // and then invoke "hot reload" (save your changes or press the "hot
+//         // reload" button in a Flutter-supported IDE, or press "r" if you used
+//         // the command line to start the app).
+//         //
+//         // Notice that the counter didn't reset back to zero; the application
+//         // state is not lost during the reload. To reset the state, use hot
+//         // restart instead.
+//         //
+//         // This works for code too, not just values: Most code changes can be
+//         // tested with just a hot reload.,
 
       
-    );
-  }
-}
+//     );
+//   }
+// }
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
