@@ -47,6 +47,7 @@
 
 // import 'package:first_project/views/inherited_widget_demonstration.dart';
 // import 'package:first_project/views/local_state_demonstration.dart';
+import 'package:first_project/views/login_screen.dart';
 import 'package:first_project/views/practice_basics/profile_screen.dart';
 import 'package:first_project/views/practice_basics/provider_example.dart';
 import 'package:first_project/views/practice_basics/riverpod_example_simple_provider.dart';
@@ -83,9 +84,18 @@ final GoRouter router = GoRouter(
 
 
 void main() {
-  runApp(ProviderScope(
-    child: MyApp(),
-  ));
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home:  LoginScreen(),
+    );
+  }
 }
 
 // class MyApp extends StatelessWidget {
