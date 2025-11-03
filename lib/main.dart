@@ -47,6 +47,8 @@
 
 // import 'package:first_project/views/inherited_widget_demonstration.dart';
 // import 'package:first_project/views/local_state_demonstration.dart';
+import 'package:first_project/models/hive_user_model.dart';
+import 'package:first_project/models/post_model.dart';
 import 'package:first_project/views/login_screen.dart';
 import 'package:first_project/views/practice_basics/profile_screen.dart';
 import 'package:first_project/views/practice_basics/provider_example.dart';
@@ -57,6 +59,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -83,7 +87,65 @@ final GoRouter router = GoRouter(
 );
 
 
-void main() {
+void main() async {
+  final simpleBoxName = "simple_box";
+  final hiveUserModelBoxName = "hive_user_model_box";
+  final postBoxName = "post_box";
+
+  print('Hive exmapleeeeeeee--------------------');
+  print("");
+  print("");
+
+  WidgetsFlutterBinding.ensureInitialized();
+  await Hive.initFlutter();
+  Hive.registerAdapter(HiveUserModelAdapter());
+
+  final simpleBox = await Hive.openBox(simpleBoxName);
+  final hiveUserModelBox = await Hive.openBox<HiveUserModel>(hiveUserModelBoxName);
+  final postBox = await Hive.openBox(postBoxName);
+
+
+  final HiveUserModel user1 = HiveUserModel(
+    id: '1',
+    name: 'Shaik azad',
+    email: "shaikazad2003@gmail.com",
+  );
+
+  final Post postModel = Post(
+    body: "simple post",
+    id: 1,
+    title: "simple title",
+  );
+
+  await simpleBox.put("id", 1);
+  await hiveUserModelBox.put(user1.id, user1);
+  try {
+    await postBox.put(postModel.id, postModel);
+  } catch(e) {
+    print("hive doesn't recognize post model");
+  }
+
+  await simpleBox.put("id", 100);
+
+  final result = await simpleBox.get("id");
+  final hiveUserModelResult = await hiveUserModelBox.get(user1.id);
+
+  print(result);
+  print(hiveUserModelResult!.email);
+
+  await simpleBox.delete("id");
+  print("successfully deleted");
+  print(simpleBox.isEmpty);
+
+
+  await simpleBox.close();
+  await hiveUserModelBox.close();
+  await postBox.close();
+
+
+    print("");
+  print("");
+  print("Hive playground ends--------------");
   runApp(MyApp());
 }
 
