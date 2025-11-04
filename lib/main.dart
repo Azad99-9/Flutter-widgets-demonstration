@@ -50,6 +50,14 @@
 import 'package:first_project/models/hive_user_model.dart';
 import 'package:first_project/models/post_model.dart';
 import 'package:first_project/views/login_screen.dart';
+import 'package:first_project/views/practice_basics/implicit_animations/animated_align.dart';
+import 'package:first_project/views/practice_basics/implicit_animations/animated_container.dart';
+import 'package:first_project/views/practice_basics/implicit_animations/animated_crossfade.dart';
+import 'package:first_project/views/practice_basics/implicit_animations/animated_opacity.dart';
+import 'package:first_project/views/practice_basics/implicit_animations/animated_padding.dart';
+import 'package:first_project/views/practice_basics/implicit_animations/animated_positioned.dart';
+import 'package:first_project/views/practice_basics/implicit_animations/animated_textstyle.dart';
+import 'package:first_project/views/practice_basics/implicit_animations/tween_example.dart';
 import 'package:first_project/views/practice_basics/profile_screen.dart';
 import 'package:first_project/views/practice_basics/provider_example.dart';
 import 'package:first_project/views/practice_basics/riverpod_example_simple_provider.dart';
@@ -155,7 +163,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home:  LoginScreen(),
+      home:  TweenExample(),
     );
   }
 }
