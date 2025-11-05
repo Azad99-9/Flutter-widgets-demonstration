@@ -47,6 +47,8 @@
 
 // import 'package:first_project/views/inherited_widget_demonstration.dart';
 // import 'package:first_project/views/local_state_demonstration.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:first_project/firebase_options.dart';
 import 'package:first_project/models/hive_user_model.dart';
 import 'package:first_project/models/post_model.dart';
 import 'package:first_project/views/login_screen.dart';
@@ -105,6 +107,14 @@ void main() async {
   print("");
 
   WidgetsFlutterBinding.ensureInitialized();
+  try {
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+    print("successfully initialized firebase into the project");
+  } catch (e) {
+    print("failed to initialise firebase");
+  }
   await Hive.initFlutter();
   Hive.registerAdapter(HiveUserModelAdapter());
 
