@@ -23,21 +23,27 @@ class LoginScreen extends StackedView<LoginScreenViewModel> {
       body: Center(
         child: Column(
           children: [
-            viewModel.isLoggedIn ? Text("${viewModel.currentUser!.userName} has been successfully logged in") : Column(
+            viewModel.isLoggedIn ?
+            Column(children: [
+               Text("${viewModel.currentUser!.email} has been successfully logged in") ,
+               ElevatedButton(onPressed: viewModel.userLogout, child: Text("Logout"))
+            ])
+            
+            : Column(
               children: [
-                TextField(
-              controller: viewModel.emailController,
-              decoration: InputDecoration(
-                hintText: "enter your email",
-              ),
-            ),
-            TextField(
-              controller: viewModel.passwordController,
-              decoration: InputDecoration(
-                hintText: "enter your password",
-              ),
-            ),
-            ElevatedButton(onPressed: viewModel.userLogin, child: Text("Login")),
+            //     TextField(
+            //   controller: viewModel.emailController,
+            //   decoration: InputDecoration(
+            //     hintText: "enter your email",
+            //   ),
+            // ),
+            // TextField(
+            //   controller: viewModel.passwordController,
+            //   decoration: InputDecoration(
+            //     hintText: "enter your password",
+            //   ),
+            // ),
+            ElevatedButton(onPressed: viewModel.userLogin, child: Text("Login with google")),
               ],
             ),
           ]

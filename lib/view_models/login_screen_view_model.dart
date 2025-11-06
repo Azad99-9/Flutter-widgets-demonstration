@@ -21,7 +21,9 @@
 
 // }
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:first_project/models/user_model.dart';
+import 'package:first_project/services/authentication_service.dart';
 import 'package:first_project/services/user_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -31,9 +33,11 @@ class LoginScreenViewModel extends BaseViewModel{
   // all the businesslogic related to the login screen goes here
 
   BuildContext context;
-  UserModel? currentUser;
+  User? currentUser;
 
-  LoginScreenViewModel({required this.context});
+  LoginScreenViewModel({required this.context}) {
+    currentUser = FirebaseAuth.instance.currentUser;
+  }
 
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
@@ -42,38 +46,53 @@ class LoginScreenViewModel extends BaseViewModel{
 
   bool get isLoggedIn => currentUser != null;
 
-  void userLogin() {
+
+
+  Future<void> userLogout () async {
+    // await AuthenticationService.logoutwithEmail();
+    await AuthenticationService.signoutwithGoogle();
+    currentUser = null;
+    notifyListeners();
+  }
+
+  Future<void> userLogin() async {
     String email = emailController.text;
     String password = passwordController.text;
 
-    bool notValidPassword = !userService.validatePassword(password: password);
+    // final UserCredential? credential = await AuthenticationService.signupwithEmail(email, password);
+    // final UserCredential? credential = await AuthenticationService.loginwithEmail(email, password);
+    final UserCredential? credential = await AuthenticationService.signInWithGoogle();
 
-    if (notValidPassword) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("please enter a valid password", style: TextStyle(color: Colors.white),), backgroundColor: Colors.red,)
-      );
-      return;
-    }
+    
 
-    bool userAccountDoesntExist = !userService.checkIfUserAlreadyHasAccount(userName: email);
+    // bool notValidPassword = !userService.validatePassword(password: password);
 
-    if (userAccountDoesntExist) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("your account doesn't exist, please create an account", style: TextStyle(color: Colors.white),), backgroundColor: Colors.red,)
-      );
-      return;
-    }
+    // if (notValidPassword) {
+    //   ScaffoldMessenger.of(context).showSnackBar(
+    //     SnackBar(content: Text("please enter a valid password", style: TextStyle(color: Colors.white),), backgroundColor: Colors.red,)
+    //   );
+    //   return;
+    // }
 
-    UserModel? dbUser = userService.authenticateTheUser(userName: email, password: password);
-    bool wrongCredentials = dbUser == null;
-    if (wrongCredentials) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("please enter valid credentials", style: TextStyle(color: Colors.white),), backgroundColor: Colors.red,)
-      );
-      return;
-    }
+    // bool userAccountDoesntExist = !userService.checkIfUserAlreadyHasAccount(userName: email);
 
-    currentUser = dbUser;
+    // if (userAccountDoesntExist) {
+    //   ScaffoldMessenger.of(context).showSnackBar(
+    //     SnackBar(content: Text("your account doesn't exist, please create an account", style: TextStyle(color: Colors.white),), backgroundColor: Colors.red,)
+    //   );
+    //   return;
+    // }
+
+    // UserModel? dbUser = userService.authenticateTheUser(userName: email, password: password);
+    // bool wrongCredentials = dbUser == null;
+    // if (wrongCredentials) {
+    //   ScaffoldMessenger.of(context).showSnackBar(
+    //     SnackBar(content: Text("please enter valid credentials", style: TextStyle(color: Colors.white),), backgroundColor: Colors.red,)
+    //   );
+    //   return;
+    // }
+
+    currentUser = credential?.user;
     notifyListeners();
 
     ScaffoldMessenger.of(context).showSnackBar(

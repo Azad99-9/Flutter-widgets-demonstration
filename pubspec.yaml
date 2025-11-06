@@ -48,6 +48,10 @@ dependencies:
   hive_generator: ^2.0.1
   build_runner: ^2.5.4
   firebase_core: ^4.2.1
+  firebase_auth: ^6.1.2
+  google_sign_in: ^6.2.1
+
+
 
 dev_dependencies:
   flutter_test:
