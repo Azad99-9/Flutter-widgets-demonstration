@@ -47,6 +47,7 @@
 
 // import 'package:first_project/views/inherited_widget_demonstration.dart';
 // import 'package:first_project/views/local_state_demonstration.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:first_project/firebase_options.dart';
 import 'package:first_project/models/hive_user_model.dart';
@@ -115,55 +116,78 @@ void main() async {
   } catch (e) {
     print("failed to initialise firebase");
   }
-  await Hive.initFlutter();
-  Hive.registerAdapter(HiveUserModelAdapter());
+  // await Hive.initFlutter();
+  // Hive.registerAdapter(HiveUserModelAdapter());
 
-  final simpleBox = await Hive.openBox(simpleBoxName);
-  final hiveUserModelBox = await Hive.openBox<HiveUserModel>(hiveUserModelBoxName);
-  final postBox = await Hive.openBox(postBoxName);
+  // final simpleBox = await Hive.openBox(simpleBoxName);
+  // final hiveUserModelBox = await Hive.openBox<HiveUserModel>(hiveUserModelBoxName);
+  // final postBox = await Hive.openBox(postBoxName);
 
 
-  final HiveUserModel user1 = HiveUserModel(
-    id: '1',
-    name: 'Shaik azad',
-    email: "shaikazad2003@gmail.com",
-  );
+  // final HiveUserModel user1 = HiveUserModel(
+  //   id: '1',
+  //   name: 'Shaik azad',
+  //   email: "shaikazad2003@gmail.com",
+  // );
 
-  final Post postModel = Post(
-    body: "simple post",
-    id: 1,
-    title: "simple title",
-  );
+  // final Post postModel = Post(
+  //   body: "simple post",
+  //   id: 1,
+  //   title: "simple title",
+  // );
 
-  await simpleBox.put("id", 1);
-  await hiveUserModelBox.put(user1.id, user1);
+  // await simpleBox.put("id", 1);
+  // await hiveUserModelBox.put(user1.id, user1);
+  // try {
+  //   await postBox.put(postModel.id, postModel);
+  // } catch(e) {
+  //   print("hive doesn't recognize post model");
+  // }
+
+  // await simpleBox.put("id", 100);
+
+  // final result = await simpleBox.get("id");
+  // final hiveUserModelResult = await hiveUserModelBox.get(user1.id);
+
+  // print(result);
+  // print(hiveUserModelResult!.email);
+
+  // await simpleBox.delete("id");
+  // print("successfully deleted");
+  // print(simpleBox.isEmpty);
+
+
+  // await simpleBox.close();
+  // await hiveUserModelBox.close();
+  // await postBox.close();
+
+
+  //   print("");
+  // print("");
+  // print("Hive playground ends--------------");
+
   try {
-    await postBox.put(postModel.id, postModel);
-  } catch(e) {
-    print("hive doesn't recognize post model");
+    final usersRef = FirebaseFirestore.instance.collection('users');
+    // await usersRef.add({
+    //   "name": "Azad",
+    //   "height": "6.4",
+    // });
+    // await usersRef.doc("VAJEYHrA2otNNh0npKVD").update({
+    //   "weight": "20"
+    // });
+    // await usersRef.doc("VAJEYHrA2otNNh0npKVD").delete();
+    // final doc = await usersRef.doc("VAJEYHrA2otNNh0npKVD").get();
+    // await usersRef.add({
+    //   "carname": "Ferrari"
+    // });
+    // await usersRef.add({
+    //   "name": "Azad",
+    // });
+    print("successfully referenced users collection");
+    // print(doc.data());
+  } catch (e) {
+    print(e);
   }
-
-  await simpleBox.put("id", 100);
-
-  final result = await simpleBox.get("id");
-  final hiveUserModelResult = await hiveUserModelBox.get(user1.id);
-
-  print(result);
-  print(hiveUserModelResult!.email);
-
-  await simpleBox.delete("id");
-  print("successfully deleted");
-  print(simpleBox.isEmpty);
-
-
-  await simpleBox.close();
-  await hiveUserModelBox.close();
-  await postBox.close();
-
-
-    print("");
-  print("");
-  print("Hive playground ends--------------");
   runApp(MyApp());
 }
 
@@ -173,7 +197,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home:  LoginScreen(),
+      home:  AnimatedPositionedExample(),
     );
   }
 }

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class AnimatedPositionedExample extends StatefulWidget {
@@ -10,7 +11,19 @@ class _AnimatedPositionedExampleState extends State<AnimatedPositionedExample> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    final usersRef = FirebaseFirestore.instance.collection('users');
+    print(usersRef);
+    return StreamBuilder(
+      stream: usersRef.snapshots(),
+      builder: (builder, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) return Scaffold(
+          body: Center(
+            child: CircularProgressIndicator(),
+        ));
+        if (snapshot.hasData) {
+          print(snapshot.data!.docs[0].data());
+        }
+      return Scaffold(
       appBar: AppBar(title: const Text("AnimatedPositionedExample Example")),
       body: Center(
         child: Column(
@@ -39,11 +52,12 @@ class _AnimatedPositionedExampleState extends State<AnimatedPositionedExample> {
                   _moved = !_moved;
                 });
               },
-              child: const Text("Toggle Visibility"),
+              child: Text("${snapshot.data!.docs.length}"),
             )
           ],
         ),
       ),
     );
+    });
   }
 }

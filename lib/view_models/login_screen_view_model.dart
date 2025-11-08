@@ -51,6 +51,7 @@ class LoginScreenViewModel extends BaseViewModel{
   Future<void> userLogout () async {
     // await AuthenticationService.logoutwithEmail();
     await AuthenticationService.signoutwithGoogle();
+    await FirebaseAuth.instance.signOut();
     currentUser = null;
     notifyListeners();
   }
