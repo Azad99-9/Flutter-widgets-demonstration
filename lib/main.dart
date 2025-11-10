@@ -52,6 +52,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:first_project/firebase_options.dart';
 import 'package:first_project/models/hive_user_model.dart';
 import 'package:first_project/models/post_model.dart';
+import 'package:first_project/views/firebase_storage_view.dart';
 import 'package:first_project/views/login_screen.dart';
 import 'package:first_project/views/practice_basics/implicit_animations/animated_align.dart';
 import 'package:first_project/views/practice_basics/implicit_animations/animated_container.dart';
@@ -197,7 +198,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home:  AnimatedPositionedExample(),
+      home:  FirebaseStorageView(),
     );
   }
 }
