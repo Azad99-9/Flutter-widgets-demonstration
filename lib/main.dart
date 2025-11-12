@@ -49,9 +49,11 @@
 // import 'package:first_project/views/local_state_demonstration.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:first_project/firebase_options.dart';
 import 'package:first_project/models/hive_user_model.dart';
 import 'package:first_project/models/post_model.dart';
+import 'package:first_project/views/demonstrate_tests.dart';
 import 'package:first_project/views/firebase_storage_view.dart';
 import 'package:first_project/views/login_screen.dart';
 import 'package:first_project/views/practice_basics/implicit_animations/animated_align.dart';
@@ -66,6 +68,7 @@ import 'package:first_project/views/practice_basics/profile_screen.dart';
 import 'package:first_project/views/practice_basics/provider_example.dart';
 import 'package:first_project/views/practice_basics/riverpod_example_simple_provider.dart';
 import 'package:first_project/views/practice_basics/text_field_demo.dart';
+import 'package:first_project/views/test_crash.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -73,6 +76,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+
+import 'dart:ui';
 
 final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -189,6 +194,23 @@ void main() async {
   } catch (e) {
     print(e);
   }
+
+  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
+
+
+  PlatformDispatcher.instance.onError = (error, stack) {
+    // checks
+    // bool isFatal = true;
+    // if (galleryview) {
+    //   isFatal = true;
+    // }
+    // else {
+    //   isFatal = false;
+    // }
+    FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+    return true;
+  };
+
   runApp(MyApp());
 }
 
@@ -198,7 +220,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home:  FirebaseStorageView(),
+      home:  HomeScreen(),
     );
   }
 }
